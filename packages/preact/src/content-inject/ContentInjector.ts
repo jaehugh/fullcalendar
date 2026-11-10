@@ -65,7 +65,8 @@ export class ContentInjector<RenderProps> extends BaseComponent<ContentInjectorP
         const isObject = customGeneratorRes && typeof customGeneratorRes === 'object' // non-null
 
         if (isObject && ('html' in customGeneratorRes)) {
-          attrs.dangerouslySetInnerHTML = { __html: customGeneratorRes.html }
+          // Jae workspace uses plain text for custom content, including model output.
+          innerContent = String(customGeneratorRes.html ?? '')
         } else if (isObject && ('domNodes' in customGeneratorRes)) {
           queuedDomNodes = Array.prototype.slice.call(customGeneratorRes.domNodes)
         } else if (
